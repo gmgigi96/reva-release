@@ -48,7 +48,7 @@ jobs:
         run: |
           cd reva
           make reva revad
-      - name: Create release
+      - name: Create reva release
         run: |
           mkdir release
           cp reva/cmd/reva/reva release/reva && cp reva/cmd/revad/revad release/revad
