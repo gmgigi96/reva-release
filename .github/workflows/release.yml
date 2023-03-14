@@ -1,0 +1,47 @@
+name: Build and release
+
+on:
+  workflow_dispatch:
+    inputs:
+      part:
+        description: 'Part of the version to increase'
+        required: true
+        default: 'patch'
+        type: choice
+        options:
+        - patch
+        - minor
+        - major
+
+jobs:
+  bump_version:
+    name: 'Bump version'
+    runs-on: ubuntu-latest
+    steps:
+      - name: 'Checkout'
+        uses: actions/checkout@v3
+        with:
+          persist-credentials: false
+      - name: 'Bump version'
+        run: |
+        git config --local user.email "cernbox-admins@cern.ch"
+        git config --local user.name "cernbox-admins[bot]"
+        sh bumpversion.sh ${{ github.event.inputs.part }}
+        git add VERSION && git commit -m "v$(cat VERSION)" && git tag -a "v$(cat VERSION)" -m "$(cat VERSION)"
+      - name: 'Push version'
+        uses: ad-m/github-push-action@master
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          tags: true
+  build_release:
+    needs: bump_version
+    name: 'Build and release'
+    runs-on: ubuntu-latest
+    container: ...
+    steps:
+      - name: 'Checkout'
+        uses: actions/checkout@v3
+        with:
+          repository: 'cernbox/reva'
+          path: 'reva'
+      - 
