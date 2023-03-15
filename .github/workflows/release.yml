@@ -29,7 +29,7 @@ jobs:
           cd reva-release
           git config --local user.email "cernbox-admins@cern.ch"
           git config --local user.name "cernbox-admins[bot]"
-          sh bumpversion.sh ${{ github.event.inputs.part }}
+          ./bumpversion.sh ${{ github.event.inputs.part }}
           git add VERSION && git commit -m "v$(cat VERSION)" && git tag -a "v$(cat VERSION)" -m "$(cat VERSION)"
           echo "version=$(cat VERSION)" >> $GITHUB_ENV
       - name: Push version
