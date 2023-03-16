@@ -22,17 +22,12 @@ This RPM provides REVA for CERNBox, built from github.com/cernbox/reva
 %setup -n %{name}-%{version}
 
 %install
-
-# installation
 rm -rf %buildroot/
 mkdir -p %buildroot/usr/bin
 mkdir -p %buildroot/etc/revad
-# mkdir -p %buildroot/etc/logrotate.d
-mkdir -p %buildroot%{_libdir}/systemd/system
 mkdir -p %buildroot/var/log/revad
 mkdir -p %buildroot/var/run/revad
-install -m 755 revad	     %buildroot/usr/bin/revad
-# install -m 644 revad.logrotate  %buildroot/etc/logrotate.d/revad
+install -m 755 revad %buildroot/usr/bin/revad
 
 %clean
 rm -rf %buildroot/
@@ -44,10 +39,9 @@ rm -rf %buildroot/
 %files
 %defattr(-,root,root,-)
 /etc/revad
-# /etc/logrotate.d/revad
 /var/log/revad
 /var/run/revad
-/usr/bin/*
+/usr/bin/revad
 
 
 %changelog
