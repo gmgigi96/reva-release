@@ -17,8 +17,6 @@ jobs:
       - name: Bump version in spec file
         run: |
           cd reva-release
-          git config --local user.email "cernbox-admins@cern.ch"
-          git config --local user.name "cernbox-admins[bot]"
           go run prepare_release.go -author "cernbox-admins[bot]" -email "cernbox-admins@cern.ch"
           echo "version=$(awk '$1 == "Version:" {print $2}' revad.spec)" >> $GITHUB_ENV
 
