@@ -37,8 +37,7 @@ jobs:
           apt update && apt install -y rpm
           cd reva
           make -f Makefile.rpm rpm
-          ls
-          cp *.rpm ../release/revad-${{ env.version }}.rpm
+          cp revad-${{ env.version }}-1.x86_64.rpm ../release/revad-${{ env.version }}.rpm
       - name: Push version
         uses: stefanzweifel/git-auto-commit-action@v4
         with:
