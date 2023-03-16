@@ -21,15 +21,6 @@ jobs:
           git config --local user.name "cernbox-admins[bot]"
           go run prepare_release.go -author "cernbox-admins[bot]" -email "cernbox-admins@cern.ch"
           echo "version=$(awk '$1 == "Version:" {print $2}' revad.spec)" >> $GITHUB_ENV
-      - name: Push version
-        uses: stefanzweifel/git-auto-commit-action@v4
-        with:
-          repository: reva-release
-          commit_message: "Version ${{ env.version }}"
-          file_pattern: revad.spec
-          commit_user_name: CERNBox Admins Bot
-          commit_user_email: cernbox-admins@cern.ch
-          tagging_message: v${{ env.version }}
 
       - name: Checkout reva repository
         uses: actions/checkout@v3
@@ -43,10 +34,19 @@ jobs:
       - name: Create reva RPM
         run: |
           mkdir release
-          apt update && apt install rpm
+          apt update && apt install -y rpm
           cd reva
           make -f Makefile.rpm rpm
           cp *.rpm ../release/revad-${{ env.version }}.rpm
+      - name: Push version
+        uses: stefanzweifel/git-auto-commit-action@v4
+        with:
+          repository: reva-release
+          commit_message: "Version ${{ env.version }}"
+          file_pattern: revad.spec
+          commit_user_name: CERNBox Admins Bot
+          commit_user_email: cernbox-admins@cern.ch
+          tagging_message: v${{ env.version }}
       - name: Release
         uses: softprops/action-gh-release@v1
         with:
@@ -55,4 +55,3 @@ jobs:
           files: release/revad-${{ env.version }}.rpm
           name: Version ${{ env.version }}
           tag_name: v${{ env.version }}
-        
