@@ -23,8 +23,7 @@ jobs:
       - name: Checkout reva repository
         uses: actions/checkout@v3
         with:
-          repository: vascoguita/reva
-          ref: test
+          repository: cernbox/reva
           path: reva
       - name: Copy necessary files for building the RPM
         run: |
@@ -39,7 +38,6 @@ jobs:
           cp revad-${{ env.version }}-1.x86_64.rpm ../release/revad-${{ env.version }}.rpm
         env:
           CGO_ENABLED: 1
-          STATIC: 1
       - name: Push version
         uses: stefanzweifel/git-auto-commit-action@v4
         with:
