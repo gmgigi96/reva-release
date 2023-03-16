@@ -43,6 +43,7 @@ jobs:
       - name: Create reva RPM
         run: |
           mkdir release
+          apt update && apt install rpm
           cd reva
           make -f Makefile.rpm rpm
           cp *.rpm ../release/revad-${{ env.version }}.rpm
