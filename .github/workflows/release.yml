@@ -39,6 +39,7 @@ jobs:
           cp revad-${{ env.version }}-1.x86_64.rpm ../release/revad-${{ env.version }}.rpm
         env:
           CGO_ENABLED: 1
+          STATIC: 1
       - name: Push version
         uses: stefanzweifel/git-auto-commit-action@v4
         with:
